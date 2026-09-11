@@ -37,6 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    "rest_framework",
+
+    "accounts",
+    "customers",
+    "orders",
+    "payments",
+    "deliveries",
+    "notifications",
 ]
 
 MIDDLEWARE = [
@@ -125,3 +134,4 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+AUTH_USER_MODEL = "accounts.User"
