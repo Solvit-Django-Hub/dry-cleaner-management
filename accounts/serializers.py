@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate
+from accounts.models import User
 from rest_framework import serializers
 
 
@@ -30,3 +31,32 @@ class LoginSerializer(serializers.Serializer):
         attrs["user"] = user
 
         return attrs
+
+
+class RegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(
+        write_only=True,
+        min_length=8,
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            "username",
+            "email",
+            "password",
+            "first_name",
+            "last_name",
+            "phone_number",
+            "role",
+        ]
+
+    def create(self, validated_data):
+        password = validated_data.pop("password")
+
+        user = User.objects.create_user(
+            password=password,
+            **validated_data,
+        )
+
+        return user
