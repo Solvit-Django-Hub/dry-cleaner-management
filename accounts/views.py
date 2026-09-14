@@ -17,21 +17,21 @@ class LoginView(APIView):
         user = serializer.validated_data["user"]
 
         return Response(
-    {
-        "message": "Login successful.",
-        "tokens": {
-            "refresh": serializer.validated_data["refresh"],
-            "access": serializer.validated_data["access"],
-        },
-        "user": {
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-            "role": user.role,
-        },
-    },
-    status=status.HTTP_200_OK,
-)
+            {
+                "message": "Login successful.",
+                "tokens": {
+                    "refresh": serializer.validated_data["refresh"],
+                    "access": serializer.validated_data["access"],
+                },
+                "user": {
+                    "id": user.id,
+                    "username": user.username,
+                    "email": user.email,
+                    "role": user.role,
+                },
+            },
+            status=status.HTTP_200_OK,
+        )
 
 class RegistrationView(APIView):
 
