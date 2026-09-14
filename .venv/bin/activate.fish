@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /home/marlene/Desktop/SOLVEIT/dry-cleaner-managemen/backend/.venv
+set -gx VIRTUAL_ENV /home/marlene/Desktop/SOLVEIT/dry-cleaner-management/backend/.venv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH
