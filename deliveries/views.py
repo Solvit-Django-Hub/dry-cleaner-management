@@ -7,3 +7,8 @@ from .serializers import DeliverySerializer
 class DeliveryListCreateView(generics.ListCreateAPIView):
     queryset = Delivery.objects.all()
     serializer_class = DeliverySerializer
+
+
+class DeliveryDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Delivery.objects.all()
+    serializer_class = DeliverySerializer
