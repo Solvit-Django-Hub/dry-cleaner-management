@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import NotificationListCreateView
+from .views import NotificationDetailView, NotificationListCreateView
 
 
 urlpatterns = [
@@ -8,5 +8,10 @@ urlpatterns = [
         "",
         NotificationListCreateView.as_view(),
         name="notification-list-create",
+    ),
+    path(
+        "<int:pk>/",
+        NotificationDetailView.as_view(),
+        name="notification-detail",
     ),
 ]
