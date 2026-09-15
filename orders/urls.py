@@ -4,10 +4,10 @@ from .views import (
     ClothingItemDetailView,
     ClothingItemListCreateView,
     OrderDetailView,
+    OrderItemDetailView,
     OrderItemListCreateView,
     OrderListCreateView,
 )
-
 
 urlpatterns = [
     path(
@@ -31,8 +31,13 @@ urlpatterns = [
         name="order-detail",
     ),
     path(
-    "items/",
-    OrderItemListCreateView.as_view(),
-    name="order-item-list-create",
-),
+        "items/",
+        OrderItemListCreateView.as_view(),
+        name="order-item-list-create",
+    ),
+    path(
+    "items/<int:pk>/",
+    OrderItemDetailView.as_view(),
+    name="order-item-detail",
+    ),
 ]
