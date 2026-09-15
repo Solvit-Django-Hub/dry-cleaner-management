@@ -1,3 +1,4 @@
+from accounts.permissions import IsDeliveryOwnerOrAdminStaff
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
@@ -14,4 +15,4 @@ class DeliveryListCreateView(generics.ListCreateAPIView):
 class DeliveryDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Delivery.objects.all()
     serializer_class = DeliverySerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsDeliveryOwnerOrAdminStaff]
