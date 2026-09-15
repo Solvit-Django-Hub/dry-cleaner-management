@@ -7,8 +7,11 @@ from .serializers import (
     OrderSerializer,
 )
 from rest_framework.permissions import IsAuthenticated
-from accounts.permissions import IsAdminOrStaff
-
+from accounts.permissions import (
+    IsAdminOrStaff,
+    IsOrderItemOwnerOrAdminStaff,
+    IsOrderOwnerOrAdminStaff,
+)
 permission_classes = [IsAuthenticated]
 
 class ClothingItemListCreateView(generics.ListCreateAPIView):
@@ -28,13 +31,11 @@ class OrderListCreateView(generics.ListCreateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
 
-
-class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
-    permission_classes = [IsAuthenticated]
-
-
+class OrderItemDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = OrderItem.objects.all()
+    serializer_class = OrderItemSerializer
+    permission_classes = [IsAuthenticated, IsOrderItemOwnerOrAdminStaff]
+    
 class OrderItemListCreateView(generics.ListCreateAPIView):
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer

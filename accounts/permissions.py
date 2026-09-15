@@ -39,3 +39,18 @@ class IsOwnerOrAdminStaff(BasePermission):
             return True
 
         return obj.user == request.user
+
+class IsOrderItemOwnerOrAdminStaff(BasePermission):
+    """
+    Allow customers to access order items belonging to their own orders.
+    Admins and staff can access any order item.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        if not request.user.is_authenticated:
+            return False
+
+        if request.user.role in ["ADMIN", "STAFF"]:
+            return True
+
+        return obj.order.customer.user == request.user
