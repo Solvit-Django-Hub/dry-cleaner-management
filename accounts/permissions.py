@@ -91,3 +91,18 @@ class IsNotificationOwnerOrAdminStaff(BasePermission):
             return True
 
         return obj.customer.user == request.user
+
+class IsAdminStaffOrReadOnlyCustomer(BasePermission):
+    """
+    Admin and staff can read and write.
+    Customers can only read.
+    """
+
+    def has_permission(self, request, view):
+        if not request.user.is_authenticated:
+            return False
+
+        if request.user.role in ["ADMIN", "STAFF"]:
+            return True
+
+        return request.method in ["GET", "HEAD", "OPTIONS"]

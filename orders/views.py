@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from accounts.permissions import (
     IsAdminOrStaff,
+    IsAdminStaffOrReadOnlyCustomer,
     IsOrderItemOwnerOrAdminStaff,
     IsOrderOwnerOrAdminStaff,
 )
@@ -28,7 +29,7 @@ class ClothingItemDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class OrderListCreateView(generics.ListCreateAPIView):
     serializer_class = OrderSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminStaffOrReadOnlyCustomer]
 
     def get_queryset(self):
         user = self.request.user
@@ -38,12 +39,11 @@ class OrderListCreateView(generics.ListCreateAPIView):
 
         return Order.objects.filter(customer__user=user)
 
-
 class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [
-        IsAuthenticated,
+        IsAdminStaffOrReadOnlyCustomer,
         IsOrderOwnerOrAdminStaff,
     ]
 
