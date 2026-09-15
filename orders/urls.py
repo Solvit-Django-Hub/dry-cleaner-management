@@ -4,6 +4,7 @@ from .views import (
     ClothingItemDetailView,
     ClothingItemListCreateView,
     OrderListCreateView,
+    OrderDetailView,
 )
 
 
@@ -22,5 +23,10 @@ urlpatterns = [
         "",
         OrderListCreateView.as_view(),
         name="order-list-create",
+    ),
+    path(
+        "<int:pk>/",
+        OrderDetailView.as_view(),
+        name="order-detail",
     ),
 ]

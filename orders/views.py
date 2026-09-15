@@ -17,3 +17,7 @@ class ClothingItemDetailView(generics.RetrieveUpdateDestroyAPIView):
 class OrderListCreateView(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
