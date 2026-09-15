@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import PaymentListCreateView
+from .views import PaymentDetailView, PaymentListCreateView
 
 
 urlpatterns = [
@@ -8,5 +8,10 @@ urlpatterns = [
         "",
         PaymentListCreateView.as_view(),
         name="payment-list-create",
+    ),
+    path(
+        "<int:pk>/",
+        PaymentDetailView.as_view(),
+        name="payment-detail",
     ),
 ]
