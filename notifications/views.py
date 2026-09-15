@@ -7,9 +7,16 @@ from .serializers import NotificationSerializer
 
 
 class NotificationListCreateView(generics.ListCreateAPIView):
-    queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.role in ["ADMIN", "STAFF"]:
+            return Notification.objects.all()
+
+        return Notification.objects.filter(customer__user=user)
 
 
 class NotificationDetailView(generics.RetrieveUpdateDestroyAPIView):
