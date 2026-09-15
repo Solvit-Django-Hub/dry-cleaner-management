@@ -27,24 +27,44 @@ class ClothingItemDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class OrderListCreateView(generics.ListCreateAPIView):
-    queryset = Order.objects.all()
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.role in ["ADMIN", "STAFF"]:
+            return Order.objects.all()
+
+        return Order.objects.filter(customer__user=user)
 
 
 class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = [IsAuthenticated, IsOrderOwnerOrAdminStaff]
+    permission_classes = [
+        IsAuthenticated,
+        IsOrderOwnerOrAdminStaff,
+    ]
 
 
 class OrderItemListCreateView(generics.ListCreateAPIView):
-    queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.role in ["ADMIN", "STAFF"]:
+            return OrderItem.objects.all()
+
+        return OrderItem.objects.filter(order__customer__user=user)
 
 
 class OrderItemDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
-    permission_classes = [IsAuthenticated, IsOrderItemOwnerOrAdminStaff]
+    permission_classes = [
+        IsAuthenticated,
+        IsOrderItemOwnerOrAdminStaff,
+    ]
