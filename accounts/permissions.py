@@ -85,3 +85,18 @@ class IsDeliveryOwnerOrAdminStaff(BasePermission):
             return True
 
         return obj.order.customer.user == request.user
+
+class IsNotificationOwnerOrAdminStaff(BasePermission):
+    """
+    Allow customers to access their own notifications.
+    Admins and staff can access any notification.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        if not request.user.is_authenticated:
+            return False
+
+        if request.user.role in ["ADMIN", "STAFF"]:
+            return True
+
+        return obj.customer.user == request.user
