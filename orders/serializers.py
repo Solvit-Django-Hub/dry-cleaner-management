@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import ClothingItem, Order
+from .models import ClothingItem, Order, OrderItem
 
 
 class ClothingItemSerializer(serializers.ModelSerializer):
@@ -31,4 +31,17 @@ class OrderSerializer(serializers.ModelSerializer):
             "id",
             "created_at",
             "updated_at",
+        ]
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = [
+            "id",
+            "order",
+            "clothing_item",
+            "quantity",
+            "price",
+            "notes",
         ]

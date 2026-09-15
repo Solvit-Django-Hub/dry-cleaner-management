@@ -3,8 +3,9 @@ from django.urls import path
 from .views import (
     ClothingItemDetailView,
     ClothingItemListCreateView,
-    OrderListCreateView,
     OrderDetailView,
+    OrderItemListCreateView,
+    OrderListCreateView,
 )
 
 
@@ -29,4 +30,9 @@ urlpatterns = [
         OrderDetailView.as_view(),
         name="order-detail",
     ),
+    path(
+    "items/",
+    OrderItemListCreateView.as_view(),
+    name="order-item-list-create",
+),
 ]
