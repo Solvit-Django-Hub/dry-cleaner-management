@@ -2,10 +2,6 @@ from rest_framework.permissions import BasePermission
 
 
 class IsAdminOrStaff(BasePermission):
-    """
-    Allow access only to admin and staff users.
-    """
-
     def has_permission(self, request, view):
         return (
             request.user.is_authenticated
@@ -14,10 +10,6 @@ class IsAdminOrStaff(BasePermission):
 
 
 class IsCustomer(BasePermission):
-    """
-    Allow access only to customer users.
-    """
-
     def has_permission(self, request, view):
         return (
             request.user.is_authenticated
@@ -26,11 +18,6 @@ class IsCustomer(BasePermission):
 
 
 class IsOwnerOrAdminStaff(BasePermission):
-    """
-    Allow users to access their own object.
-    Admins and staff can access any object.
-    """
-
     def has_object_permission(self, request, view, obj):
         if not request.user.is_authenticated:
             return False
@@ -40,12 +27,8 @@ class IsOwnerOrAdminStaff(BasePermission):
 
         return obj.user == request.user
 
-class IsOrderOwnerOrAdminStaff(BasePermission):
-    """
-    Allow customers to access their own orders.
-    Admins and staff can access any order.
-    """
 
+class IsOrderOwnerOrAdminStaff(BasePermission):
     def has_object_permission(self, request, view, obj):
         if not request.user.is_authenticated:
             return False
@@ -57,11 +40,6 @@ class IsOrderOwnerOrAdminStaff(BasePermission):
 
 
 class IsOrderItemOwnerOrAdminStaff(BasePermission):
-    """
-    Allow customers to access order items belonging to their own orders.
-    Admins and staff can access any order item.
-    """
-
     def has_object_permission(self, request, view, obj):
         if not request.user.is_authenticated:
             return False
@@ -70,6 +48,18 @@ class IsOrderItemOwnerOrAdminStaff(BasePermission):
             return True
 
         return obj.order.customer.user == request.user
+
+
+class IsPaymentOwnerOrAdminStaff(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if not request.user.is_authenticated:
+            return False
+
+        if request.user.role in ["ADMIN", "STAFF"]:
+            return True
+
+        return obj.order.customer.user == request.user
+
 
 class IsDeliveryOwnerOrAdminStaff(BasePermission):
     """
@@ -85,6 +75,7 @@ class IsDeliveryOwnerOrAdminStaff(BasePermission):
             return True
 
         return obj.order.customer.user == request.user
+
 
 class IsNotificationOwnerOrAdminStaff(BasePermission):
     """
