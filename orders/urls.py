@@ -1,6 +1,9 @@
 from django.urls import path
 
-from .views import ClothingItemListCreateView
+from .views import (
+    ClothingItemDetailView,
+    ClothingItemListCreateView,
+)
 
 
 urlpatterns = [
@@ -8,5 +11,10 @@ urlpatterns = [
         "clothing-items/",
         ClothingItemListCreateView.as_view(),
         name="clothing-item-list-create",
+    ),
+    path(
+        "clothing-items/<int:pk>/",
+        ClothingItemDetailView.as_view(),
+        name="clothing-item-detail",
     ),
 ]
