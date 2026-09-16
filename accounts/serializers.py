@@ -53,7 +53,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "phone_number",
-            "role",
         ]
 
     def create(self, validated_data):
@@ -61,6 +60,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
         user = User.objects.create_user(
             password=password,
+            role=User.Role.CUSTOMER,
             **validated_data,
         )
 
