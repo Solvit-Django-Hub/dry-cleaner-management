@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate
 from accounts.models import User
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from customers.models import Customer
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -53,7 +53,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "phone_number",
-            "role",
         ]
 
     def create(self, validated_data):
@@ -61,7 +60,10 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
         user = User.objects.create_user(
             password=password,
+            role=User.Role.CUSTOMER,
             **validated_data,
         )
+
+        Customer.objects.create(user=user)
 
         return user
