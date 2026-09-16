@@ -50,7 +50,7 @@ class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class OrderItemListCreateView(generics.ListCreateAPIView):
     serializer_class = OrderItemSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminStaffOrReadOnlyCustomer]
 
     def get_queryset(self):
         user = self.request.user
@@ -58,13 +58,14 @@ class OrderItemListCreateView(generics.ListCreateAPIView):
         if user.role in ["ADMIN", "STAFF"]:
             return OrderItem.objects.all()
 
-        return OrderItem.objects.filter(order__customer__user=user)
-
+        return OrderItem.objects.filter(
+            order__customer__user=user
+        )
 
 class OrderItemDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = OrderItem.objects.all()
     serializer_class = OrderItemSerializer
     permission_classes = [
-        IsAuthenticated,
+        IsAdminStaffOrReadOnlyCustomer,
         IsOrderItemOwnerOrAdminStaff,
     ]
